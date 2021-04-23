@@ -1,11 +1,15 @@
 #!/bin/bash -x
+DATADIR=/etc/switches
+SWITCHLIST=$DATADIR/switches.txt
+BACKDUPDIR=$DATADIR/backups
+TFTPDIR=/srv/tftp
 THISDIR=$PWD
 git pull
 SEARCH=""
 if [ -n "$1" ]; then
 	SEARCH="/$1/ "
 fi
-awk "$SEARCH"'{ print $1,$4,$5,$6 }' < switches.txt | while read sw ip class password;do
+awk "$SEARCH"'{ print $1,$4,$5,$6 }' < $SWITCHLIST | while read sw ip class password;do
 MYIP="$(ip ro get $ip|awk '/src/ { print $5 }')"
 echo name: $sw ip: $ip myip: $MYIP class: $class
 case "$class" in
@@ -15,45 +19,45 @@ case "$class" in
 esac
 case "$class" in
 	gs724tv4)
-		mkdir -p /srv/tftp/backup
+		mkdir -p $TFTPDIR/backup
 		DESTFILE=backup/$sw.txt
-		touch /srv/tftp/$DESTFILE
-		chmod a+w /srv/tftp/$DESTFILE
+		touch $TFTPDIR/$DESTFILE
+		chmod a+w $TFTPDIR/$DESTFILE
 		$THISDIR/expect/$class $ip $sw $MYIP ${password/:*/} ${password/*:/}
-		if [ "$(tail -n +10 /srv/tftp/$DESTFILE|md5sum)" != "$(tail -n +10 $THISDIR/backups/$sw.txt|md5sum)" ] && [ -s /srv/tftp/$DESTFILE ]; then
-			mv /srv/tftp/$DESTFILE $THISDIR/backups/$sw.txt
-			chmod go-w $THISDIR/backups/$sw.txt
-			git add $THISDIR/backups/$sw.txt
+		if [ "$(tail -n +10 $TFTPDIR/$DESTFILE|md5sum)" != "$(tail -n +10 $BACKUPDIR/$sw.txt|md5sum)" ] && [ -s $TFTPDIR/$DESTFILE ]; then
+			mv $TFTPDIR/$DESTFILE $BACKUPDIR/$sw.txt
+			chmod go-w $BACKUPDIR/$sw.txt
+			git add $BACKUPDIR/$sw.txt
 		else
-			rm /srv/tftp/$DESTFILE
+			rm $TFTPDIR/$DESTFILE
 		fi
 		;;
 	hp2530)
-		mkdir -p /srv/tftp/backup
+		mkdir -p $TFTPDIR/backup
 		DESTFILE=backup/$sw.txt
-		touch /srv/tftp/$DESTFILE
-		chmod a+w /srv/tftp/$DESTFILE
+		touch $TFTPDIR/$DESTFILE
+		chmod a+w $TFTPDIR/$DESTFILE
 		$THISDIR/expect/$class $ip $sw $MYIP ${password/:*/} ${password/*:/}
-		if [ "$(tail -n +0 /srv/tftp/$DESTFILE|md5sum)" != "$(tail -n +0 $THISDIR/backups/$sw.txt|md5sum)" ] && [ -s /srv/tftp/$DESTFILE ]; then
-			mv /srv/tftp/$DESTFILE $THISDIR/backups/$sw.txt
-			chmod go-w $THISDIR/backups/$sw.txt
-			git add $THISDIR/backups/$sw.txt
+		if [ "$(tail -n +0 $TFTPDIR/$DESTFILE|md5sum)" != "$(tail -n +0 $BACKUPDIR/$sw.txt|md5sum)" ] && [ -s $TFTPDIR/$DESTFILE ]; then
+			mv $TFTPDIR/$DESTFILE $BACKUPDIR/$sw.txt
+			chmod go-w $BACKUPDIR/$sw.txt
+			git add $BACKUPDIR/$sw.txt
 		else
-			rm /srv/tftp/$DESTFILE
+			rm $TFTPDIR/$DESTFILE
 		fi
 		;;
 	lgs318p)
-		mkdir -p /srv/tftp/backup
+		mkdir -p $TFTPDIR/backup
 		DESTFILE=backup/$sw.txt
-		touch /srv/tftp/$DESTFILE
-		chmod a+w /srv/tftp/$DESTFILE
+		touch $TFTPDIR/$DESTFILE
+		chmod a+w $TFTPDIR/$DESTFILE
 		$THISDIR/expect/$class $ip $sw $MYIP ${password/:*/} ${password/*:/} < /dev/tty
-		if [ "$(tail -n +0 /srv/tftp/$DESTFILE|md5sum)" != "$(tail -n +0 $THISDIR/backups/$sw.txt|md5sum)" ] && [ -s /srv/tftp/$DESTFILE ]; then
-			mv /srv/tftp/$DESTFILE $THISDIR/backups/$sw.txt
-			chmod go-w $THISDIR/backups/$sw.txt
-			git add $THISDIR/backups/$sw.txt
+		if [ "$(tail -n +0 $TFTPDIR/$DESTFILE|md5sum)" != "$(tail -n +0 $BACKUPDIR/$sw.txt|md5sum)" ] && [ -s $TFTPDIR/$DESTFILE ]; then
+			mv $TFTPDIR/$DESTFILE $BACKUPDIR/$sw.txt
+			chmod go-w $BACKUPDIR/$sw.txt
+			git add $BACKUPDIR/$sw.txt
 		else
-			rm /srv/tftp/$DESTFILE
+			rm $TFTPDIR/$DESTFILE
 		fi
 		;;
 	*)
