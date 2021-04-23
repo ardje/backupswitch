@@ -4,6 +4,11 @@ SWITCHLIST=$DATADIR/switches.txt
 BACKDUPDIR=$DATADIR/backups
 TFTPDIR=/srv/tftp
 THISDIR=$PWD
+function git() {
+	pushd $DATADIR
+	/usr/bin/git "$@"
+	popd
+}
 git pull
 SEARCH=""
 if [ -n "$1" ]; then
