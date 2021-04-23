@@ -1,0 +1,49 @@
+#!/usr/bin/expect
+set ip [lindex $argv 0]
+set switch [lindex $argv 1]
+set tftpserver [lindex $argv 2]
+set user [lindex $argv 3]
+set password [lindex $argv 4]
+
+set timeout 20
+
+spawn telnet $ip
+expect_after eof {exit 0}
+expect "Password:"
+sleep 1
+send "$user\t$password\r"
+expect "Logout"
+send "1\r"
+send "5\r"
+sleep 1
+send "1\r"
+sleep 1
+send "\t\r"
+sleep 1
+send "\t\t"
+sleep 1
+send "backup/$switch.txt\t"
+sleep 1
+send "$tftpserver\t"
+sleep 1
+send "\033"
+sleep 2
+send "\t\r"
+expect "Operation complete"
+sleep 2
+#send "\r"
+#sleep 1
+send "\t"
+sleep 1
+send "\t"
+sleep 1
+send "\t"
+sleep 1
+send "\r"
+#interact
+#exit 0
+sleep 1
+send "004"
+sleep 1
+send "\ry"
+interact
