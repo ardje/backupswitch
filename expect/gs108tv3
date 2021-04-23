@@ -12,11 +12,10 @@ expect_after eof {exit 0}
 expect "Username:" { send "$user\r" }
 expect "Password:" { send "$password\r" }
 expect "#"
-send "copy nvram:startup-config tftp://$tftpserver/$switch.txt\r"
+send "copy startup-config tftp://$tftpserver/$switch.txt\r"
 expect "Uploading file. Please wait"
 expect "Uploading Done"
 expect "Success"
-expect "Filename"
 expect "#"
 send "exit\r"
 expect ">"
