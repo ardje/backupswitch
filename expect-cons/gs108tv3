@@ -11,5 +11,4 @@ spawn -noecho telnet $ip 60000
 expect_after eof {exit 0}
 expect "Username:" { send "$user\r" }
 expect "Password:" { send "$password\r" }
-expect ">" { send "enable\r" }
 expect {#} { interact }
