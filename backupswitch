@@ -18,6 +18,20 @@ case "$class" in
 		;;
 esac
 case "$class" in
+	gs108tv3)
+		mkdir -p $TFTPDIR
+		DESTFILE=$sw.txt
+		touch $TFTPDIR/$DESTFILE
+		chmod a+w $TFTPDIR/$DESTFILE
+		$THISDIR/expect/$class $ip $sw $MYIP ${password/:*/} ${password/*:/}
+		if [ "$(tail -n +10 $TFTPDIR/$DESTFILE|md5sum)" != "$(tail -n +10 $BACKUPDIR/$sw.txt|md5sum)" ] && [ -s $TFTPDIR/$DESTFILE ]; then
+			mv $TFTPDIR/$DESTFILE $BACKUPDIR/$sw.txt
+			chmod go-w $BACKUPDIR/$sw.txt
+			git add $BACKUPDIR/$sw.txt
+		else
+			rm $TFTPDIR/$DESTFILE
+		fi
+		;;
 	gs724tv4)
 		mkdir -p $TFTPDIR/backup
 		DESTFILE=backup/$sw.txt
