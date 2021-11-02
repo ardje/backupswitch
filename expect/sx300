@@ -1,0 +1,20 @@
+#!/usr/bin/expect
+set ip [lindex $argv 0]
+set switch [lindex $argv 1]
+set tftpserver [lindex $argv 2]
+set user [lindex $argv 3]
+set password [lindex $argv 4]
+
+set timeout 20
+
+spawn telnet $ip
+expect_after eof {exit 0}
+expect "User Name:" { send "$user\r" }
+expect "Password:" { send "$password\r" }
+expect "#"
+#send "copy nvram:startup-config tftp://$tftpserver/backup/$switch.txt\r"
+send "copy startup-config tftp $tftpserver backup/$switch.txt\r"
+expect "COPY-I-FILECPY"
+expect "Copy:"
+expect "#"
+send "exit\r"
