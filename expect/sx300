@@ -13,7 +13,6 @@ expect "User Name:" { send "$user\r" }
 expect "Password:" { send "$password\r" }
 expect "#"
 send "copy startup-config tftp://$tftpserver/backup/$switch.txt\r"
-expect "COPY-I-FILECPY"
 expect "Copy:"
 expect "#"
 send "exit\r"
