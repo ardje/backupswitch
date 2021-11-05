@@ -1,0 +1,14 @@
+#!/usr/bin/expect -f
+set ip [lindex $argv 0]
+set switch [lindex $argv 1]
+set tftpserver [lindex $argv 2]
+set user [lindex $argv 3]
+set password [lindex $argv 4]
+
+set timeout 20
+
+spawn -noecho telnet $ip 60000
+expect_after eof {exit 0}
+expect "Username:" { send "$user\r" }
+expect "Password:" { send "$password\r" }
+expect {#} { interact }
