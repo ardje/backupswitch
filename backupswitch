@@ -51,6 +51,9 @@ case "$class" in
 			rm $TFTPDIR/$DESTFILE
 		fi
 		;;
+	sx200)
+		echo Skipping $sw as it has no CLI
+		;;
 	sx300)
 		mkdir -p $TFTPDIR/backup
 		DESTFILE=backup/$sw.txt
