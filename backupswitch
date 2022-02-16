@@ -68,7 +68,7 @@ case "$class" in
 			rm $TFTPDIR/$DESTFILE
 		fi
 		;;
-	hp2530|hp2520-S15|hp2620)
+	hp2530|hp2520-S14|hp2520-S15|hp2620)
 		mkdir -p $TFTPDIR/backup
 		DESTFILE=backup/$sw.txt
 		touch $TFTPDIR/$DESTFILE
