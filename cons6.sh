@@ -9,7 +9,7 @@ export IP="$ip"
 export CLASS="$class"
 export MYIP="$myip"
 export PASSWORD="$password"
-done < <( awk '/'"$1"'/ { print $1,$3,$5,$6 }' < $SWITCHLIST )
+done < <( awk '/'"$1"'[ \t]/ { print $1,$3,$5,$6 }' < $SWITCHLIST )
 echo name: $SW ip: $IP myip: $MYIP class: $CLASS
 if [ ! -n "$IP" ]; then
 	echo "Can't find $1"
