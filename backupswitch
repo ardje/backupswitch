@@ -23,7 +23,7 @@ case "$class" in
 		;;
 esac
 case "$class" in
-	gs108tv3|gs308tv1)
+	gs108tv3|gs308tv1|gs752TPv2)
 		mkdir -p $TFTPDIR
 		DESTFILE=$sw.txt
 		touch $TFTPDIR/$DESTFILE
