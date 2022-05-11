@@ -18,4 +18,4 @@ fi
 
 # netcat needs openbsd-netcat due to broken netcat in debian
 #echo -en 'GET /cgi/get.cgi?'"$ARGS&bj4=$BJ4"' HTTP/1.0\r\n\r\n'|nc "$LL" 80|awk '/"sn":/ { print $2 }'
-curl $INTERFACE --data "$DATA" "http://$LL/cgi/set.cgi?$ARGS&bj4=$BJ4"
+curl -g $INTERFACE --data "$DATA" "http://$LL/cgi/set.cgi?$ARGS&bj4=$BJ4"
