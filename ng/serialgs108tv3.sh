@@ -32,4 +32,4 @@ fi
 
 # netcat needs openbsd-netcat due to broken netcat in debian
 #echo -en 'GET /cgi/get.cgi?'"$ARGS&bj4=$BJ4"' HTTP/1.0\r\n\r\n'|nc "$LL" 80|awk '/"sn":/ { print $2 }'
-curl -g $INTERFACE "http://$LL/cgi/get.cgi?$ARGS&bj4=$BJ4"
+curl -g $INTERFACE -H "Host: dumbdumb" "http://$LL/cgi/get.cgi?$ARGS&bj4=$BJ4"
