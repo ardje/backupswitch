@@ -8,6 +8,9 @@ case "$CURL_VERSION" in
 		USE_BRACKETS=false
 		USE_INTERFACE=false
 		;;
+	7.64.*)
+		USE_INTERFACE=true
+		;;
 esac
 
 
