@@ -3,10 +3,12 @@ LL="$1"
 CURL_VERSION="$(curl -V|awk '{ print $2; nextfile}')"
 USE_INTERFACE=false
 USE_BRACKETS=true
+NEEDS_PORT=false
 case "$CURL_VERSION" in
 	7.35.*)
 		USE_BRACKETS=false
 		USE_INTERFACE=false
+		NEEDS_PORT=true
 		;;
 	7.64.*)
 		USE_INTERFACE=true
@@ -31,6 +33,9 @@ if $USE_INTERFACE; then
 fi
 if $USE_BRACKETS; then
 	LL="[${LL}]"
+fi
+if $NEEDS_PORT; then
+	LL="$LL:80"
 fi
 
 # netcat needs openbsd-netcat due to broken netcat in debian
