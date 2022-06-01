@@ -3,7 +3,7 @@ LL="$1"
 CURL_VERSION="$(curl -V|awk '{ print $2; nextfile}')"
 USE_INTERFACE=false
 USE_BRACKETS=true
-case "CURL_VERSION" in
+case "$CURL_VERSION" in
 	7.35.*)
 		USE_BRACKETS=false
 		USE_INTERFACE=false
