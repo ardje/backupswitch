@@ -7,7 +7,7 @@ set password [lindex $argv 4]
 
 set timeout 20
 
-spawn -noecho ssh $user@$ip
+spawn -noecho ssh -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no $user@$ip
 expect_after eof {exit 0}
 expect "Password:" { send "$password\r" }
 expect {#} { interact }
