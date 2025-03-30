@@ -32,7 +32,7 @@ case "$class" in
 			rm $TFTPDIR/$DESTFILE
 		fi
 		;;
-	gs716tv3|gs724tv4|gs724tv6|gs748tv5)
+	gs716tv3|gs724tv4|gs724tv6|gs748tv5|xs508tm)
 		mkdir -p $TFTPDIR/backup
 		DESTFILE=backup/$sw.txt
 		touch $TFTPDIR/$DESTFILE
