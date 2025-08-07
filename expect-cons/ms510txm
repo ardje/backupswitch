@@ -1,0 +1,15 @@
+#!/usr/bin/expect
+set ip [lindex $argv 0]
+set switch [lindex $argv 1]
+set tftpserver [lindex $argv 2]
+set user [lindex $argv 3]
+set password [lindex $argv 4]
+
+set timeout 20
+
+spawn -noecho ssh -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no $user@$ip
+expect_after eof {exit 0}
+expect "password:" { send "$password\r" }
+expect ">"
+send "enable\r"
+expect {#} { interact }
